@@ -31,4 +31,10 @@ func init() {
 }
 ```
 
-Statsreg is thread-safe. Providers can be added at any time
+## Functions
+- `RegisterInt64(name string, provider func() int64)` - registers a provider that returns an int64
+- `RegisterString(name string, provider func() string)` - registers a provider that returns an string
+- `RegisterGeneric(name string, provider func() interface{})` - registers a provider that returns an interface{}. The value must be serializable using encoding/json
+- `Remove(name string)` - removes the provider. Safe to call if it doesn't exist
+
+Methods are thread-safe.

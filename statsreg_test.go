@@ -21,6 +21,15 @@ func (_ StatsRegTest) CollectsAndOutputStats() {
 	assertFile("last", "it's over", "power", float64(9000))
 }
 
+func (_ StatsRegTest) RemovesAProvider() {
+	sr := New(Configure().File("test.json", true))
+	sr.RegisterString("last", ProvideString)
+	sr.RegisterInt64("power", ProvideInt64)
+	sr.Remove("last")
+	sr.Collect()
+	assertFile("power", float64(9000))
+}
+
 func ProvideString() string {
 	return "it's over"
 }
