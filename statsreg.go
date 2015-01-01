@@ -13,9 +13,9 @@ type StringProvider func() string
 type StatsReg struct {
 	*Configuration
 	sync.Mutex
-	stats     map[string]interface{}
-	int64s    map[string]Int64Provider
-	strings    map[string]StringProvider
+	stats   map[string]interface{}
+	int64s  map[string]Int64Provider
+	strings map[string]StringProvider
 }
 
 // Create a new registry with the specified configuration

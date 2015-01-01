@@ -1,10 +1,10 @@
 package statsreg
 
 import (
-	. "github.com/karlseguin/expect"
-	"testing"
-	"io/ioutil"
 	"encoding/json"
+	. "github.com/karlseguin/expect"
+	"io/ioutil"
+	"testing"
 )
 
 type StatsRegTest struct{}
@@ -30,7 +30,7 @@ func ProvideInt64() int64 {
 }
 
 func assertFile(keyValues ...interface{}) {
-	bytes, err :=	ioutil.ReadFile("test.json")
+	bytes, err := ioutil.ReadFile("test.json")
 	if err != nil {
 		panic(err)
 	}
@@ -39,7 +39,7 @@ func assertFile(keyValues ...interface{}) {
 		panic(err)
 	}
 
-	Expect(len(stats)).To.Equal(len(keyValues)/2)
+	Expect(len(stats)).To.Equal(len(keyValues) / 2)
 	for i := 0; i < len(keyValues); i += 2 {
 		key, value := keyValues[i].(string), keyValues[i+1]
 		Expect(stats[key]).To.Equal(value)
