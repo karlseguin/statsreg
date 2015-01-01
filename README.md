@@ -25,8 +25,8 @@ func init() {
     debug.ReadGCStats(stats)
     return stats.NumGC
   })
-  sr.RegisterInt64("goroutines", func() int64 {
-    return int64(runtime.NumGoroutine()) // import "runtime"
+  sr.RegisterGeneric("goroutines", func() interface{} {
+    return runtime.NumGoroutine() // import "runtime"
   })
 }
 ```
