@@ -8,6 +8,10 @@ import (
 	"time"
 )
 
+var LogOverwrite = func(name string) {
+	log.Println(fmt.Sprintf("stats %s is already registered, overwriting", name))
+}
+
 type Int64Provider func() int64
 type StringProvider func() string
 type GenericProvider func() interface{}
@@ -45,8 +49,8 @@ func (sr *StatsReg) RegisterString(name string, provider StringProvider) {
 func (sr *StatsReg) RegisterGeneric(name string, provider GenericProvider) {
 	sr.Lock()
 	defer sr.Unlock()
-	if _, exists := sr.providers[name]; exists {
-		log.Println(fmt.Sprintf("stats %s is already registered, overwriting", name))
+	if _, exists := sr.providers[name]; exists && LogOverwrite != nil {
+		LogOverwrite(name)
 	}
 	sr.providers[name] = provider
 }

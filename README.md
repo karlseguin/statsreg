@@ -38,3 +38,6 @@ func init() {
 - `Remove(name string)` - removes the provider. Safe to call if it doesn't exist
 
 Methods are thread-safe.
+
+### Overwriting
+By default, statsreg will log a message when registering an alread-registered name. This makes sense for static statistics (those registered at init). However, you may want to dynamically register statistics, sometimes with the same name. You can disable the logging by setting the global var `LogOvewrite` to `nil` (this is actually a function, so you could implement your own custom logging logic, but why?).

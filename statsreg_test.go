@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"testing"
 )
+var originalOverwrite = LogOverwrite
 
 type StatsRegTest struct{}
 
@@ -28,6 +29,27 @@ func (_ StatsRegTest) RemovesAProvider() {
 	sr.Remove("last")
 	sr.Collect()
 	assertFile("power", float64(9000))
+}
+
+func (_ StatsRegTest) SupportsACustomLogOverwrite() {
+	defer func() { LogOverwrite = originalOverwrite }()
+	var captured string
+	LogOverwrite = func(name string) {
+		captured = name
+	}
+	sr := New(Configure().File("test.json", true))
+	sr.RegisterString("a", ProvideString)
+	sr.RegisterString("a", ProvideString)
+	Expect(captured).To.Equal("a")
+}
+
+func (_ StatsRegTest) SupportsANilLogOverwrite() {
+	defer func() { LogOverwrite = originalOverwrite }()
+	LogOverwrite = nil
+	sr := New(Configure().File("test.json", true))
+	sr.RegisterString("a", ProvideString)
+	sr.RegisterString("a", ProvideString)
+	//if it doesn't panic, we're good
 }
 
 func ProvideString() string {
